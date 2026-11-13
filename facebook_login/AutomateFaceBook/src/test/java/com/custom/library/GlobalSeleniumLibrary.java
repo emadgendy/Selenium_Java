@@ -41,8 +41,7 @@ import com.google.common.io.Files;
 
 /***
  * 
- * @author Musabay Technologies This class is used all the selenium related
- *         web-elements and make it wrapper methods
+ * @author Emad Gendy
  */
 public class GlobalSeleniumLibrary {
 
