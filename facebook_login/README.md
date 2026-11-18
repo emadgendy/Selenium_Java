@@ -14,23 +14,41 @@ The project compiles with Java 8 source and target compatibility. Selenium 3 use
 
 ## Run the tests
 
-Run commands from the directory containing the root `pom.xml` (the `facebook_login` project directory):
+From the `facebook_login` project directory, run the complete Maven test suite:
 
 ```shell
 mvn test
 ```
 
-Run only the Facebook login test method:
+Run only the Facebook login test method from the `facebook_login` directory:
 
 ```shell
 mvn -pl AutomateFaceBook -Dtest=RegressionTest#faceBookLogin test
 ```
 
-On Windows, if you are in the parent directory, first enter the project directory:
+Alternatively, enter the Maven module directory and run the test directly:
+
+```powershell
+cd .\facebook_login\AutomateFaceBook
+mvn test "-Dtest=faceBookAutomation.RegressionTest#faceBookLogin"
+```
+
+In VS Code:
+
+1. Open [RegressionTest.java](AutomateFaceBook/src/test/java/faceBookAutomation/RegressionTest.java).
+2. Click **Run Test** above `faceBookLogin`, or right-click the `RegressionTest` class and select **Run Test**.
+3. Keep `browserType=Chrome` in `config.properties` unless Chrome is replaced with another configured browser.
+
+Before running the test, review:
+
+- `AutomateFaceBook/src/test/resources/login_info.xls`
+- `AutomateFaceBook/src/test/resources/config.properties`
+
+On Windows, if you are in the parent directory, enter the project directory first:
 
 ```powershell
 cd .\facebook_login
-mvn -pl AutomateFaceBook -Dtest=RegressionTest#faceBookLogin test
+mvn -pl AutomateFaceBook -Dtest=faceBookAutomation.RegressionTest#faceBookLogin test
 ```
 
 Maven downloads the dependencies declared in the module POM on the first run. A successful Maven run ends with `BUILD SUCCESS`. The login method uses a TestNG data provider, so it runs once for each data row in the workbook.
@@ -78,6 +96,24 @@ Maven and the test utilities write output under `AutomateFaceBook/target/`, incl
 - Screenshots in `images/` when a test fails
 
 ## Troubleshooting
+
+- **Maven reports “no POM in this directory”:** Change into the directory containing a POM before running Maven:
+
+  ```powershell
+  cd C:\Users\nanah\Desktop\Develop\SeleniumJava\facebook_login
+  Get-Location
+  Test-Path .\pom.xml
+  mvn test
+  ```
+
+  `Test-Path .\pom.xml` should print `True`. For the module-only command, change to the module directory instead:
+
+  To run only the Facebook test:
+
+  ```powershell
+  cd C:\Users\nanah\Desktop\Develop\SeleniumJava\facebook_login\AutomateFaceBook
+  mvn test "-Dtest=faceBookAutomation.RegressionTest#faceBookLogin"
+  ```
 
 - **Maven says the selected project is not in the reactor:** Run the command from the `facebook_login` directory, where the root `pom.xml` is located.
 - **ChromeDriver cannot start or reports a version mismatch:** Update the bundled driver to a version compatible with the installed Chrome, or configure the driver path in the Selenium browser setup.
